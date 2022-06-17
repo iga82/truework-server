@@ -1,0 +1,1 @@
+data class Greeting(val name: String, val age: Int)
