@@ -1,13 +1,29 @@
 package com.brodie.kotlin.trueworkserver
 
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class HtmlController {
-
     @GetMapping
-    fun index(): String = "hello!!"
+    fun index(): String {
+        val (request, response, result) = "https://catfact.ninja/fact"
+            .httpGet()
+            .responseString()
+
+        val returnVal = when(result) {
+            is Result.Failure -> {
+                result.error.toString()
+            }
+            is Result.Success -> {
+               result.get()
+            }
+        }
+
+        return returnVal
+    }
 }
 
 //package com.example.restservice;
